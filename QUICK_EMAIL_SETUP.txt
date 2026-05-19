@@ -1,0 +1,34 @@
+═══════════════════════════════════════════════════════════════
+  QUICK EMAIL SETUP - Leave Management System
+═══════════════════════════════════════════════════════════════
+
+GMAIL SETUP (3 STEPS):
+─────────────────────────────────────────────────────────────
+
+1. Enable 2-Step Verification
+   → Go to: myaccount.google.com/security
+   → Enable "2-Step Verification"
+
+2. Generate App Password
+   → Go to: myaccount.google.com/apppasswords
+   → Select "Mail" → "Other (Custom name)"
+   → Copy the 16-character password
+
+3. Add to .env file:
+   EMAIL_SERVICE=gmail
+   EMAIL_USER=your_email@gmail.com
+   EMAIL_PASSWORD=abcd efgh ijkl mnop
+   EMAIL_FROM_NAME=Leave Management System
+
+TEST YOUR SETUP:
+─────────────────────────────────────────────────────────────
+   node test-email.js your_test_email@example.com
+
+TROUBLESHOOTING:
+─────────────────────────────────────────────────────────────
+❌ "Invalid login" → Use App Password, not regular password
+❌ "Connection timeout" → Check firewall/internet
+❌ Emails in spam → Add sender to contacts
+
+For detailed instructions: See EMAIL_SETUP_GUIDE.md
+═══════════════════════════════════════════════════════════════

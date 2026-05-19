@@ -1,0 +1,140 @@
+═══════════════════════════════════════════════════════════════════════════════
+                    EMAIL NOTIFICATION FLOW
+═══════════════════════════════════════════════════════════════════════════════
+
+SCENARIO 1: User Requests Leave
+─────────────────────────────────────────────────────────────────────────────
+
+  👤 User                    📧 Email System              👨‍💼 Admin
+  ─────                      ──────────────              ──────
+    │                                                       │
+    │  1. Submit Leave Request                             │
+    │  (Date range + Reason)                               │
+    │────────────────────────►                             │
+    │                         │                            │
+    │                         │  2. Send Email             │
+    │                         │  "New Leave Request"       │
+    │                         │───────────────────────────►│
+    │                         │                            │
+    │  3. Success Message     │                            │  4. Receives Email
+    │◄────────────────────────│                            │  ✉️ New Request
+    │                                                       │
+
+
+SCENARIO 2: Admin Approves Leave
+─────────────────────────────────────────────────────────────────────────────
+
+  👨‍💼 Admin                   📧 Email System              👤 User
+  ──────                      ──────────────              ─────
+    │                                                       │
+    │  1. Click "Approve"                                  │
+    │────────────────────────►                             │
+    │                         │                            │
+    │                         │  2. Send Email             │
+    │                         │  "Leave Approved" ✅       │
+    │                         │───────────────────────────►│
+    │                         │                            │
+    │  3. Success Message     │                            │  4. Receives Email
+    │◄────────────────────────│                            │  ✉️ Approved!
+    │                                                       │
+
+
+SCENARIO 3: Admin Rejects Leave
+─────────────────────────────────────────────────────────────────────────────
+
+  👨‍💼 Admin                   📧 Email System              👤 User
+  ──────                      ──────────────              ─────
+    │                                                       │
+    │  1. Click "Reject"                                   │
+    │────────────────────────►                             │
+    │                         │                            │
+    │                         │  2. Send Email             │
+    │                         │  "Leave Rejected" ❌       │
+    │                         │───────────────────────────►│
+    │                         │                            │
+    │  3. Success Message     │                            │  4. Receives Email
+    │◄────────────────────────│                            │  ✉️ Rejected
+    │                                                       │
+
+
+═══════════════════════════════════════════════════════════════════════════════
+                         EMAIL CONTENT EXAMPLES
+═══════════════════════════════════════════════════════════════════════════════
+
+📧 NEW LEAVE REQUEST (to Admin)
+┌─────────────────────────────────────────────────────────────────────────┐
+│  Subject: New Leave Request from John Doe                               │
+│                                                                          │
+│  Hello Admin,                                                           │
+│                                                                          │
+│  A new leave request has been submitted and requires your approval.     │
+│                                                                          │
+│  ┌─────────────────────────────────────────────────────────────────┐   │
+│  │ Request Details:                                                 │   │
+│  │ Employee: John Doe                                               │   │
+│  │ Email: john@example.com                                          │   │
+│  │ Start Date: March 20, 2026                                       │   │
+│  │ End Date: March 22, 2026                                         │   │
+│  │ Duration: 3 days                                                 │   │
+│  │ Reason: Family vacation                                          │   │
+│  └─────────────────────────────────────────────────────────────────┘   │
+│                                                                          │
+│  Please log in to the system to approve or reject this request.         │
+└─────────────────────────────────────────────────────────────────────────┘
+
+
+📧 LEAVE APPROVED (to User)
+┌─────────────────────────────────────────────────────────────────────────┐
+│  Subject: Leave Request Approved - 3/20/2026                            │
+│                                                                          │
+│  Hello John Doe,                                                        │
+│                                                                          │
+│  Your leave request has been [APPROVED] ✅                              │
+│                                                                          │
+│  ┌─────────────────────────────────────────────────────────────────┐   │
+│  │ Leave Details:                                                   │   │
+│  │ Start Date: March 20, 2026                                       │   │
+│  │ End Date: March 22, 2026                                         │   │
+│  │ Reason: Family vacation                                          │   │
+│  │ Status: Approved                                                 │   │
+│  └─────────────────────────────────────────────────────────────────┘   │
+│                                                                          │
+│  Your leave has been approved. Enjoy your time off!                     │
+└─────────────────────────────────────────────────────────────────────────┘
+
+
+📧 LEAVE REJECTED (to User)
+┌─────────────────────────────────────────────────────────────────────────┐
+│  Subject: Leave Request Rejected - 3/20/2026                            │
+│                                                                          │
+│  Hello John Doe,                                                        │
+│                                                                          │
+│  Your leave request has been [REJECTED] ❌                              │
+│                                                                          │
+│  ┌─────────────────────────────────────────────────────────────────┐   │
+│  │ Leave Details:                                                   │   │
+│  │ Start Date: March 20, 2026                                       │   │
+│  │ End Date: March 22, 2026                                         │   │
+│  │ Reason: Family vacation                                          │   │
+│  │ Status: Rejected                                                 │   │
+│  └─────────────────────────────────────────────────────────────────┘   │
+│                                                                          │
+│  Your leave request has been rejected.                                  │
+│  Please contact your administrator for more information.                │
+└─────────────────────────────────────────────────────────────────────────┘
+
+
+═══════════════════════════════════════════════════════════════════════════════
+                           CONFIGURATION
+═══════════════════════════════════════════════════════════════════════════════
+
+Required in .env file:
+  EMAIL_SERVICE=gmail
+  EMAIL_USER=your_email@gmail.com
+  EMAIL_PASSWORD=your_app_password
+  EMAIL_FROM_NAME=Leave Management System
+
+Test your setup:
+  node test-email.js
+
+═══════════════════════════════════════════════════════════════════════════════

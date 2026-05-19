@@ -1,0 +1,247 @@
+═══════════════════════════════════════════════════════════════════════════════
+                    COMPLETE SYSTEM WORKFLOW
+═══════════════════════════════════════════════════════════════════════════════
+
+STEP 1: USER REGISTRATION
+─────────────────────────────────────────────────────────────────────────────
+  Browser                    Backend                    Database
+  ───────                    ───────                    ────────
+    │                          │                          │
+    │  1. Fill Registration    │                          │
+    │     Form                 │                          │
+    │  - Name                  │                          │
+    │  - Email                 │                          │
+    │  - Password              │                          │
+    │                          │                          │
+    │  2. Submit               │                          │
+    │─────────────────────────►│                          │
+    │                          │  3. Hash Password        │
+    │                          │  4. Create User          │
+    │                          │─────────────────────────►│
+    │                          │                          │
+    │  5. Success Message      │◄─────────────────────────│
+    │◄─────────────────────────│                          │
+    │  6. Redirect to Login    │                          │
+    │                          │                          │
+
+
+STEP 2: USER LOGIN
+─────────────────────────────────────────────────────────────────────────────
+  Browser                    Backend                    Database
+  ───────                    ───────                    ────────
+    │                          │                          │
+    │  1. Enter Credentials    │                          │
+    │  - Email                 │                          │
+    │  - Password              │                          │
+    │                          │                          │
+    │  2. Submit Login         │                          │
+    │─────────────────────────►│                          │
+    │                          │  3. Verify User          │
+    │                          │─────────────────────────►│
+    │                          │◄─────────────────────────│
+    │                          │  4. Generate JWT         │
+    │  5. Receive Token        │                          │
+    │◄─────────────────────────│                          │
+    │  6. Store in localStorage│                          │
+    │  7. Redirect to Home     │                          │
+    │                          │                          │
+
+
+STEP 3: REQUEST LEAVE
+─────────────────────────────────────────────────────────────────────────────
+  User Browser              Backend                Email System        Admin
+  ────────────              ───────                ────────────        ─────
+    │                         │                        │                │
+    │  1. Select Dates        │                        │                │
+    │  2. Enter Reason        │                        │                │
+    │  3. Submit Request      │                        │                │
+    │────────────────────────►│                        │                │
+    │                         │  4. Save to DB         │                │
+    │                         │  5. Send Email         │                │
+    │                         │───────────────────────►│                │
+    │                         │                        │  6. Deliver    │
+    │  7. Success Message     │                        │───────────────►│
+    │◄────────────────────────│                        │                │
+    │                         │                        │                │  ✉️
+
+
+STEP 4: ADMIN REVIEWS REQUEST
+─────────────────────────────────────────────────────────────────────────────
+  Admin Browser             Backend                Database
+  ─────────────             ───────                ────────
+    │                         │                        │
+    │  1. Check Email         │                        │
+    │  2. Login to System     │                        │
+    │  3. View All Leaves     │                        │
+    │────────────────────────►│                        │
+    │                         │  4. Fetch Leaves       │
+    │                         │───────────────────────►│
+    │  5. Display Requests    │◄───────────────────────│
+    │◄────────────────────────│                        │
+    │  6. Click "View"        │                        │
+    │  7. See Details         │                        │
+    │                         │                        │
+
+
+STEP 5: APPROVE/REJECT LEAVE
+─────────────────────────────────────────────────────────────────────────────
+  Admin Browser             Backend            Email System         User
+  ─────────────             ───────            ────────────         ────
+    │                         │                     │                │
+    │  1. Click Approve       │                     │                │
+    │────────────────────────►│                     │                │
+    │                         │  2. Update Status   │                │
+    │                         │  3. Send Email      │                │
+    │                         │────────────────────►│                │
+    │                         │                     │  4. Deliver    │
+    │  5. Success Message     │                     │───────────────►│
+    │◄────────────────────────│                     │                │  ✉️
+    │                         │                     │                │
+
+
+STEP 6: VIEW CALENDAR
+─────────────────────────────────────────────────────────────────────────────
+  Browser                   Backend                Database
+  ───────                   ───────                ────────
+    │                         │                        │
+    │  1. Navigate to Home    │                        │
+    │────────────────────────►│                        │
+    │                         │  2. Fetch Approved     │
+    │                         │     Leaves             │
+    │                         │───────────────────────►│
+    │                         │◄───────────────────────│
+    │  3. Display Calendar    │                        │
+    │◄────────────────────────│                        │
+    │                         │                        │
+    │  📅 Calendar Shows:     │                        │
+    │  - Occupied dates       │                        │
+    │  - User names           │                        │
+    │  - Tooltips with reason │                        │
+    │                         │                        │
+
+
+═══════════════════════════════════════════════════════════════════════════════
+                         AUTHENTICATION OPTIONS
+═══════════════════════════════════════════════════════════════════════════════
+
+OPTION 1: Email/Password Login
+┌─────────────────────────────────────┐
+│  📧 Email: user@example.com         │
+│  🔒 Password: ********              │
+│  [        Login        ]            │
+└─────────────────────────────────────┘
+
+OPTION 2: Google OAuth
+┌─────────────────────────────────────┐
+│  [  🔵 Sign in with Google  ]       │
+│  → One-click authentication         │
+│  → Auto account creation            │
+└─────────────────────────────────────┘
+
+
+═══════════════════════════════════════════════════════════════════════════════
+                         EMAIL NOTIFICATION FLOW
+═══════════════════════════════════════════════════════════════════════════════
+
+📧 NEW LEAVE REQUEST
+  User submits → Backend saves → Email to Admin
+  
+  Admin receives:
+  ┌────────────────────────────────────────┐
+  │ Subject: New Leave Request from John   │
+  │                                        │
+  │ Employee: John Doe                     │
+  │ Dates: Mar 20 - Mar 22, 2026          │
+  │ Reason: Family vacation                │
+  │                                        │
+  │ [Login to approve/reject]              │
+  └────────────────────────────────────────┘
+
+✅ LEAVE APPROVED
+  Admin approves → Backend updates → Email to User
+  
+  User receives:
+  ┌────────────────────────────────────────┐
+  │ Subject: Leave Request Approved        │
+  │                                        │
+  │ Your leave has been APPROVED ✅        │
+  │                                        │
+  │ Dates: Mar 20 - Mar 22, 2026          │
+  │ Reason: Family vacation                │
+  │                                        │
+  │ Enjoy your time off!                   │
+  └────────────────────────────────────────┘
+
+❌ LEAVE REJECTED
+  Admin rejects → Backend updates → Email to User
+  
+  User receives:
+  ┌────────────────────────────────────────┐
+  │ Subject: Leave Request Rejected        │
+  │                                        │
+  │ Your leave has been REJECTED ❌        │
+  │                                        │
+  │ Dates: Mar 20 - Mar 22, 2026          │
+  │ Reason: Family vacation                │
+  │                                        │
+  │ Contact admin for more info            │
+  └────────────────────────────────────────┘
+
+
+═══════════════════════════════════════════════════════════════════════════════
+                         SYSTEM ARCHITECTURE
+═══════════════════════════════════════════════════════════════════════════════
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                           FRONTEND (React)                              │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐              │
+│  │  Login   │  │ Register │  │   Home   │  │ My Leaves│              │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────┘              │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐                            │
+│  │  Admin   │  │  Navbar  │  │ Calendar │                            │
+│  └──────────┘  └──────────┘  └──────────┘                            │
+└─────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    │ HTTP/REST API
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                        BACKEND (Node.js/Express)                        │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                │
+│  │ Auth Routes  │  │ Leave Routes │  │ Middleware   │                │
+│  └──────────────┘  └──────────────┘  └──────────────┘                │
+│  ┌──────────────┐  ┌──────────────┐                                  │
+│  │ Controllers  │  │ Email Utils  │                                  │
+│  └──────────────┘  └──────────────┘                                  │
+└─────────────────────────────────────────────────────────────────────────┘
+                │                              │
+                │                              │
+                ▼                              ▼
+┌──────────────────────────┐    ┌──────────────────────────┐
+│   MongoDB Database       │    │   Gmail SMTP             │
+│  ┌────────┐ ┌────────┐  │    │  (Email Notifications)   │
+│  │ Users  │ │ Leaves │  │    │                          │
+│  └────────┘ └────────┘  │    │  xdcdragon@gmail.com     │
+└──────────────────────────┘    └──────────────────────────┘
+
+
+═══════════════════════════════════════════════════════════════════════════════
+                         QUICK REFERENCE
+═══════════════════════════════════════════════════════════════════════════════
+
+START BACKEND:        npm run dev
+START FRONTEND:       cd frontend && npm start
+TEST EMAIL:           node test-email.js
+
+FRONTEND URL:         http://localhost:3000
+BACKEND URL:          http://localhost:5000
+
+LOGIN PAGE:           http://localhost:3000/login
+REGISTER PAGE:        http://localhost:3000/register
+HOME (CALENDAR):      http://localhost:3000/
+MY LEAVES:            http://localhost:3000/Myleaves
+ADMIN PANEL:          http://localhost:3000/adminleavelist
+
+EMAIL CONFIGURED:     xdcdragon@gmail.com
+EMAIL STATUS:         ✅ WORKING (Tested)
+
+═══════════════════════════════════════════════════════════════════════════════

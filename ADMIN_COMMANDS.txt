@@ -1,0 +1,168 @@
+═══════════════════════════════════════════════════════════════
+  ADMIN MANAGEMENT COMMANDS - Quick Reference
+═══════════════════════════════════════════════════════════════
+
+CREATE ADMIN USER
+─────────────────────────────────────────────────────────────
+
+Basic Command:
+  npm run create-admin <email> [name] [password]
+
+Examples:
+  
+  1. Quick admin (uses defaults):
+     npm run create-admin admin@company.com
+     → Email: admin@company.com
+     → Name: Admin User
+     → Password: admin123
+
+  2. Custom name:
+     npm run create-admin admin@company.com "John Admin"
+     → Email: admin@company.com
+     → Name: John Admin
+     → Password: admin123
+
+  3. Full details:
+     npm run create-admin admin@company.com "John Admin" SecurePass123
+     → Email: admin@company.com
+     → Name: John Admin
+     → Password: SecurePass123
+
+  4. Upgrade existing user:
+     npm run create-admin user@example.com
+     → Upgrades user@example.com to admin role
+
+
+COMMON SCENARIOS
+─────────────────────────────────────────────────────────────
+
+First Time Setup:
+  npm run create-admin admin@yourcompany.com "System Admin" admin123
+
+Development/Testing:
+  npm run create-admin test@test.com
+
+Production Setup:
+  npm run create-admin admin@company.com "Admin Name" StrongPassword123!
+
+
+WHAT THE COMMAND DOES
+─────────────────────────────────────────────────────────────
+
+✓ Connects to MongoDB
+✓ Checks if user exists
+  → If exists: Upgrades to admin
+  → If not: Creates new admin user
+✓ Hashes password securely
+✓ Saves to database
+✓ Shows credentials
+
+
+OUTPUT EXAMPLE
+─────────────────────────────────────────────────────────────
+
+$ npm run create-admin admin@test.com
+
+═══════════════════════════════════════════════════════
+   Leave Management System - Create Admin User
+═══════════════════════════════════════════════════════
+
+✅ Connected to MongoDB
+
+✅ Admin user created successfully!
+   Email: admin@test.com
+   Name: Admin User
+   Password: admin123
+   Role: admin
+
+⚠️  Please save these credentials securely!
+
+✅ Database connection closed
+
+
+OTHER USEFUL COMMANDS
+─────────────────────────────────────────────────────────────
+
+Test Email Configuration:
+  npm run test-email
+
+Start Backend (Development):
+  npm run dev
+
+Start Backend (Production):
+  npm start
+
+Start Frontend:
+  cd frontend
+  npm start
+
+
+VERIFICATION
+─────────────────────────────────────────────────────────────
+
+After creating admin:
+
+1. Start the application:
+   npm run dev
+
+2. Login at:
+   http://localhost:3000/login
+
+3. Use admin credentials:
+   Email: admin@test.com
+   Password: admin123
+
+4. Check navbar for:
+   "All Leaves (Admin)" menu item
+
+
+TROUBLESHOOTING
+─────────────────────────────────────────────────────────────
+
+Error: Cannot connect to MongoDB
+→ Start MongoDB: mongod
+→ Check MONGO_URL in .env
+
+Error: User validation failed
+→ Check email format
+→ Ensure password is 8+ characters
+
+Script doesn't run
+→ Ensure you're in project root
+→ Try: node create-admin.js admin@test.com
+
+
+SECURITY NOTES
+─────────────────────────────────────────────────────────────
+
+⚠️  Change default password (admin123) in production!
+✓ Use strong passwords
+✓ Keep credentials secure
+✓ Don't share admin access
+✓ Document who has admin rights
+
+
+QUICK SETUP WORKFLOW
+─────────────────────────────────────────────────────────────
+
+1. Install dependencies:
+   npm install
+
+2. Configure .env file:
+   MONGO_URL=mongodb://localhost:27017/...
+   JWT_SECRET=your_secret
+   EMAIL_USER=your_email@gmail.com
+   EMAIL_PASSWORD=your_app_password
+
+3. Create admin:
+   npm run create-admin admin@company.com
+
+4. Start application:
+   npm run dev
+
+5. Login and test!
+
+
+═══════════════════════════════════════════════════════════════
+For detailed guide, see: CREATE_ADMIN_GUIDE.md
+═══════════════════════════════════════════════════════════════
